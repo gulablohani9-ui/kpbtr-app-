@@ -3,6 +3,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
 from kivy.uix.button import Button
+import os
 
 class KPBTRApp(BoxLayout):
     def __init__(self, **kwargs):
@@ -33,7 +34,12 @@ class KPBTRApp(BoxLayout):
         try:
             date_val = self.dob_input.text
             time_val = self.tob_input.text
-            self.result_label.text = f"Successfully Calculated!\nDOB: {date_val}\nTOB: {time_val}"
+            
+            # Check if ephe folder exists in app storage
+            ephe_path = os.path.join(os.path.dirname(__file__), 'ephe')
+            ephe_status = "Ephe folder found!" if os.path.exists(ephe_path) else "Ephe folder missing!"
+            
+            self.result_label.text = f"Calculated Successfully!\nDOB: {date_val}\nTOB: {time_val}\n{ephe_status}"
         except Exception as e:
             self.result_label.text = f"Error: {str(e)}"
 
